@@ -40,10 +40,13 @@ function convertCurrency(amount, price, currency) {
 		description.textContent = `${currency} 1 = ${formatCurrencyBRL(price)}`;
 
 		// Calcula o total.
-		const total = amount * price;
+		let total = amount * price;
+
+		// Formatar o valor total.
+		total = formatCurrencyBRL(total).replace("R$", "");
 
 		// Exibe o resultado total.
-		result.textContent = total;
+		result.textContent = `${total} Reais`;
 
 		// Aplica a classe que exibe o footer para mostrar o resultado.
 		footer.classList.add("show-result");
