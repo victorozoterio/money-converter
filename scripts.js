@@ -1,8 +1,17 @@
-// Cotação de moedas do dia.
-const USD = 4.87;
-const EUR = 5.32;
-const GBP = 6.08;
-
+// Função para buscar a cotação atual da moeda.
+async function getCurrencyQuote(currency) {
+	try {
+	  const response = await fetch(`https://economia.awesomeapi.com.br/json/last/${currency}-BRL`);
+	  if (!response.ok) throw new Error("Error accessing API.");
+  
+	  const data = Object.values(await response.json());
+	  return Number.parseFloat(data[0].bid);
+	} catch (error) {
+	  console.error("Error:", error.message);
+	  alert("Erro ao obter a cotação atual da moeda. Por favor, tente novamente mais tarde.");
+	}
+  }
+  
 // Obtendo os elementos do formulário.
 const form = document.querySelector("form");
 const amount = document.getElementById("amount");
@@ -18,17 +27,50 @@ amount.addEventListener("input", () => {
 });
 
 // Capturando o evento de submit (enviar) do formulário.
-form.onsubmit = (event) => {
+form.onsubmit = async (event) => {
 	event.preventDefault();
 	switch (currency.value) {
 		case "USD":
-			convertCurrency(amount.value, USD, "US$");
+			convertCurrency(amount.value, await getCurrencyQuote(currency.value), "US$");
 			break;
 		case "EUR":
-			convertCurrency(amount.value, EUR, "€");
+			convertCurrency(amount.value, await getCurrencyQuote(currency.value), "€");
+			break;
+		case "JPY":
+			convertCurrency(amount.value, await getCurrencyQuote(currency.value), "¥");
 			break;
 		case "GBP":
-			convertCurrency(amount.value, GBP, "£");
+			convertCurrency(amount.value, await getCurrencyQuote(currency.value), "£");
+			break;
+		case "CNY":
+			convertCurrency(amount.value, await getCurrencyQuote(currency.value), "C¥");
+			break;
+		case "CAD":
+			convertCurrency(amount.value, await getCurrencyQuote(currency.value), "CA$");
+			break;
+		case "AUD":
+			convertCurrency(amount.value, await getCurrencyQuote(currency.value), "AU$");
+			break;
+		case "CHF":
+			convertCurrency(amount.value, await getCurrencyQuote(currency.value), "₣");
+			break;
+		case "INR":
+			convertCurrency(amount.value, await getCurrencyQuote(currency.value), "₹");
+			break;
+		case "MXN":
+			convertCurrency(amount.value, await getCurrencyQuote(currency.value), "MX$");
+			break;
+		case "ARS":
+			convertCurrency(amount.value, await getCurrencyQuote(currency.value), "AR$");
+			break;
+		case "ZAR":
+			convertCurrency(amount.value, await getCurrencyQuote(currency.value), "R");
+			break;
+		case "SGD":
+			convertCurrency(amount.value, await getCurrencyQuote(currency.value), "S$");
+			break;
+		case "PEN":
+			convertCurrency(amount.value, await getCurrencyQuote(currency.value), "S/");
 			break;
 	}
 };
